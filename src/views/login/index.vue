@@ -29,7 +29,13 @@
       </van-cell-group>
       </form>
       <div class="logininfo">
-      <van-button  @click='handleLogin' type="info">登录</van-button>
+      <van-button
+       @click='handleLogin'
+        type="info"
+        :loading='btnLoading'
+        loading-type='spinner'
+        loading-text='登陆中'
+        >登录</van-button>
 
       </div>
 
@@ -46,7 +52,8 @@ export default {
       user: {
         mobile: '13911111111',
         code: '246810'
-      }
+      },
+      btnLoading: false
 
     }
   },
@@ -72,15 +79,30 @@ export default {
     // 登陆事件
     async handleLogin () {
       try {
-        const data = await login(this.user)
+        // const data = await login(this.user)
         // console.log(res)
         // 跳转之前保存登录状态
-        this.$store.commit('setUser', data)
-        // 条状到首页
-        this.$router.push({
-          name: 'home'
+
+        this.$validator.validate().then(async (valid) => {
+          if (!valid) {
+            return this.$toast.fail('登录失败')
+          }
+          // 验证成功后登录
+          this.btnLoading = true
+          this.$toast.success('登陆成功')
+          const data = await login(this.user)
+
+          this.$store.commit('setUser', data)
+          console.log(this.$store)
+          // 跳转到首页
+
+          this.$router.push({
+            name: 'home'
+          })
         })
       } catch (err) {
+        this.$toast.fail('登录失败')
+        this.btnLoading = false
         console.log('登录失败' + err)
       }
     }

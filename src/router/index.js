@@ -14,9 +14,16 @@ export default new Router({
       component: () => import('@/views/login')
     },
     {
-      name: 'home',
-      path: '/home',
-      component: () => import('@/views/home')
+
+      path: '/',
+      component: () => import('@/views/layoutbar'),
+      children: [
+        {
+          name: 'home',
+          path: '/home',
+          component: () => import('@/views/home')
+        }
+      ]
     }
   ]
 })
