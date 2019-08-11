@@ -93,7 +93,7 @@ export default {
           const data = await login(this.user)
 
           this.$store.commit('setUser', data)
-          console.log(this.$store)
+
           // 跳转到首页
 
           this.$router.push({

@@ -8,7 +8,7 @@ export default new Vuex.Store({
     // 初始化的时候直接从本地存乎中获得登录状态 防止刷新丢失 token
     user: getUser()
   },
-  mutation: {
+  mutations: {
     setUser (state, user) {
       state.user = user
       // 存储到本地存储中
